@@ -1,3 +1,4 @@
 # DiscordTool
-Download the dependencies ### pip install colorama discord requests datetime selenium
+# First download the dependencies: pip install colorama discord requests datetime selenium
+
 ![Screenshot](screenshot.jpg)
